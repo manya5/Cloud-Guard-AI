@@ -1,0 +1,12 @@
+flask
+authlib
+requests
+bcrypt
+flask_wtf
+pymongo
+email-validator
+pyjwt
+python-dotenv
+pandas
+scikit-learn
+flask-mailman

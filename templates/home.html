@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudGuard AI - Databreach Detection</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">    
+    
+
+</head>
+<body>
+    <div class="main w-full h-screen bg-zinc-950 font-['Gilroy'] text-white flex">
+        <div class="side-bar w-[18%] h-full flex justify-center items-center px-2">
+            <div class="side-container w-full h-[96%] bg-zinc-900 flex flex-col items-center justify-between py-10 rounded-xl">
+
+            
+                <h2 class="text-[1.75rem] font-bold">Cloud<span class="text-blue-600">Guard</span> AI</h2>
+                <ul class="flex flex-col text-zinc-400 gap-1">
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300  font-semibold" href="{{url_for('home')}}"><i class="ri-dashboard-fill"></i>Dashboard</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300  font-semibold" href="{{url_for('activity')}}"><i class="ri-dashboard-2-line"></i>Activity</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300  font-semibold" href="{{url_for('settings')}}"><i class="ri-settings-5-line"></i>Settings</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300  font-semibold" href="{{url_for('monitor')}}"><i class="ri-eye-2-line"></i>Monitor</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300  font-semibold" href="http://localhost:3000/skyvault/home" target="_blank"><i class="ri-file-line"></i>Check SkyVault</a></li>
+                </ul>
+                <button class="bg-red-700 hover:bg-red-600 font-bold px-4 py-2 rounded-md"><a href="{{url_for('logout')}}">LogOut</a></button>
+            </div>
+        </div>
+        <div class="home-main w-[82%] h-screen flex">
+            <div class="activity-section w-3/4 h-full flex flex-col py-4 pl-1">
+        <!-- Replace this section with new scoreboard -->
+        <div class="w-full p-4">
+            <h2 class="text-2xl font-bold mb-6 text-white">Analytics Overview <a href="/api/train_model"><i class="ri-refresh-line"></i></a></h2>
+            <div class="grid grid-cols-3 gap-6">
+                <!-- Files Card -->
+                <div class="bg-zinc-900 border-2 border-blue-600 rounded-xl p-6 transform transition-all hover:scale-105">
+                    <div class="flex flex-col items-center">
+                        <div class="text-blue-600 mb-2">
+                            <i class="ri-file-list-line text-4xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white">{{ files_count }}</h2>
+                        <p class="text-zinc-400 text-sm mt-2">Total Files</p>
+                    </div>
+                </div>
+
+                <!-- Activities Card -->
+                <div class="bg-zinc-900 border-2 border-green-600 rounded-xl p-6 transform transition-all hover:scale-105">
+                    <div class="flex flex-col items-center">
+                        <div class="text-green-600 mb-2">
+                            <i class="ri-activity-line text-4xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white">{{ activities_count }}</h2>
+                        <p class="text-zinc-400 text-sm mt-2">Total Activities</p>
+                        <button class="bg-green-700 px-4 py-2 rounded-lg hover:bg-green-600 text-sm  mt-2"><a href="{{url_for('activity')}}">View Activity</a></button>
+                    </div>
+                </div>
+
+                <!-- Anomalies Card -->
+                <div class="bg-zinc-900 border-2 border-red-600 rounded-xl p-6 transform transition-all hover:scale-105">
+                    <div class="flex flex-col items-center">
+                        <div class="text-red-600 mb-2">
+                            <i class="ri-error-warning-line text-4xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-white">{{ anomaly_count }}</h2>
+                        <p class="text-zinc-400 text-sm mt-2">Anomalies Detected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optional: Recent Activity List -->
+            <div class="mt-8 bg-zinc-900 rounded-xl p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Recent Activities</h3>
+                <div class="space-y-3">
+                    {% for activity in recent_activities %}
+                    <div class="flex items-center justify-between p-3 bg-zinc-800 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <i class="ri-file-line text-blue-600"></i>
+                            <span class="text-zinc-300">{{ activity.filename }}</span>
+                        </div>
+                        <span class="text-zinc-400 text-sm">{{ activity.fileUploadedAt.strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="summary-section w-[30%] h-full flex flex-col gap-3 p-3">
+                <div onclick="showAnomalyDetails()" class="cards w-full h-1/3 bg-zinc-900 border-2 border-red-700 rounded-xl flex justify-center items-center flex-col cursor-pointer hover:bg-gray-950">
+                <h1 class="text-center text-xl text-zinc-200 font-bold tracking-wider uppercase">Detected Anomalies</h1>
+                <i class="ri-alert-line text-red-700 text-8xl"></i>
+            </div>
+            
+            <!-- Add Modal for Anomaly Details -->
+            <div id="anomalyDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                <div class="bg-zinc-900 p-6 rounded-xl w-3/4 max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-white">Detected Anomalies</h2>
+                        <button onclick="closeAnomalyDetails()" class="text-gray-400 hover:text-white">
+                            <i class="ri-close-line text-2xl"></i>
+                        </button>
+                    </div>
+                    <div id="anomalyDetailsList" class="space-y-4">
+                        <!-- Anomaly details will be populated here -->
+                    </div>
+                </div>
+            </div>
+                
+                <!--
+                <div class="cards w-full h-1/3 border-2 border-blue-700 bg-zinc-900 rounded-xl flex justify-center items-center flex-col cursor-pointer hover:bg-gray-950 gap-2">
+                    <h1 class="text-center text-xl text-zinc-200 font-bold tracking-wider uppercase">Anamoly Insights</h1>
+                    <i class="ri-user-search-fill text-blue-700 text-8xl font-bold"></i>
+                    <button class="bg-blue-900 px-4 py-2 rounded-lg hober:bg-blue-600">Explore Anomalies</button>
+                </div>
+                -->
+
+                <div class="cards w-full h-1/3 border-2 border-blue-700 bg-zinc-900 rounded-xl flex justify-center items-center flex-col cursor-pointer hover:bg-gray-950 gap-2">
+                    <h1 class="text-center text-xl text-zinc-200 font-bold tracking-wider uppercase">Anomaly Insights</h1>
+                    <i class="ri-user-search-fill text-blue-700 text-8xl font-bold"></i>
+                    <button onclick="openAnomalyModal()" class="bg-blue-900 px-4 py-2 rounded-lg hover:bg-blue-600">Explore Anomalies</button>
+                </div>
+
+                <!-- Anomaly Insights Modal -->
+                <div id="anomalyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                    <div class="bg-zinc-900 p-6 rounded-xl w-3/4 max-h-[80vh] overflow-y-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold text-white">Anomaly Insights</h2>
+                            <button onclick="closeAnomalyModal()" class="text-gray-400 hover:text-white">
+                                <i class="ri-close-line text-2xl"></i>
+                            </button>
+                        </div>
+                        <div id="anomalyInsightsContent" class="space-y-4">
+                            <!-- Content will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cards w-full h-1/3 border-2 border-green-700 bg-zinc-900 rounded-xl flex justify-center items-center flex-col cursor-pointer hover:bg-gray-950">
+                    <h1 class="text-center text-xl text-zinc-200 font-bold tracking-wider uppercase">User Activity <br> Monitoring</h1>
+                    <i class="ri-search-eye-line text-green-700 text-8xl font-bold"></i>
+                    <button class="bg-green-700 px-4 py-2 rounded-lg hover:bg-green-600"><a href="{{url_for('monitor')}}">Monitor User</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="anomalyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-zinc-900 p-6 rounded-xl w-3/4 max-h-[80vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-white">Anomaly Insights</h2>
+            <button onclick="closeAnomalyModal()" class="text-gray-400 hover:text-white">
+                <i class="ri-close-line text-2xl"></i>
+            </button>
+        </div>
+        <div id="anomalyInsightsContent" class="space-y-4">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    
+    
+</body>
+</html>

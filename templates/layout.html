@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">  
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+
+    <script src="https://unpkg.com/swup@3"></script>
+</head>
+
+
+<body>
+    <div class="main w-full h-screen bg-zinc-950 font-['Gilroy'] text-white flex">
+        <div class="side-bar w-[18%] h-full flex justify-center items-center px-2">
+            <div class="side-container w-full h-[96%] bg-zinc-900 flex flex-col items-center justify-between py-10 rounded-xl">
+
+            
+                <h2 class="text-[1.75rem] font-bold">Cloud<span class="text-blue-600">Guard</span> AI</h2>
+                <ul class="flex flex-col text-zinc-400 gap-1">
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300 font-semibold" href="{{url_for('home')}}"><i class="ri-dashboard-fill"></i>Dashboard</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300 font-semibold" href="{{url_for('activity')}}"><i class="ri-dashboard-2-line"></i>Activity</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300 font-semibold" href="{{url_for('settings')}}"><i class="ri-settings-5-line"></i>Settings</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300 font-semibold" href="{{url_for('monitor')}}"><i class="ri-eye-2-line"></i>Monitor</a></li>
+                    <li><a class="flex gap-2 text-[1.15rem] hover:text-zinc-300 font-semibold" href="http://localhost:3000/skyvault/home" target="_blank"><i class="ri-file-line"></i>Check SkyVault</a></li>
+                </ul>
+                <button class="bg-red-700 hover:bg-red-600 font-bold px-4 py-2 rounded-md"><a href="{{url_for('logout')}}">LogOut</a></button>
+            </div>
+
+        </div>
+        <div id="swup" class="page-transition w-[82%] overflow-scroll overflow-x-hidden">
+            {% block content %}
+            
+            {% endblock %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script> 
+
+    <script>
+        const swup = new Swup();
+        const ctx = document.getElementById('myChart');
+    
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }}
+            }
+        });
+    </script>   
+</body>
+</html>

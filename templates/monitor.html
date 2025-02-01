@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+<!-- <div class="activity-section w-3/4 h-full flex flex-col py-4 pl-1">
+    <div class="activity-top w-full h-[12%] rounded-lg flex px-6 items-start gap-2">
+        <button class="bg-slate-800 hover:bg-slate-700 px-5 py-3 rounded-lg">Overview</button>
+        <button class="border-2 border-slate-800 hover:bg-slate-800 px-5 py-3 rounded-lg">Predictions</button>
+        <button class="border-2 border-slate-800 hover:bg-slate-800 px-5 py-3 rounded-lg">Comparisons</button>
+    </div>
+    <div class="activity-main w-full h-[88%] p-10">
+        <canvas id="myChart" class=""></canvas>
+    </div>
+</div> -->
+
+<!-- Add this in the head section -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Add this where you want to display the chart -->
+<div class="chart-container w-[90%] h-screen flex justify-center items-center" style="position: relative;">
+    <canvas id="anomalyChart"></canvas>
+
+    <button class="absolute text-sm top-10 right-10 bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-lg"><a href="/api/export_anomaly_report">Download Report</a></button>
+</div>
+
+<!-- Add this JavaScript at the end of the body -->
+<script src="{{ url_for('static', filename='js/monitor.js') }}"></script>
+
+{% endblock content %}

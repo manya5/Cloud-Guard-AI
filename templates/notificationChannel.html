@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="change-password-section w-[82%] h-screen flex justify-center items-center overflow-hidden">
+    <div class="change-password-container h-[96%] w-full p-10 ">
+        <h1 class="text-6xl mb-10">Notification Channel</h1>
+
+        <button class="back-btn absolute top-10 right-20 text-white hover:text-zinc-500 text-6xl"><a href="/settings"><i class="ri-arrow-left-circle-line"></i></a></button>
+
+        <div class="flex flex-col gap-2 w-80">
+            <div class="email-notification flex flex-col">
+                <h2 class="text-2xl">Email Notification</h2>
+                <p>Receive notifications via email</p>
+                <div class="toggle-btn toggle-btn1 relative w-14 h-7 rounded-full bg-zinc-700 mt-2 cursor-pointer">
+                    <div class="toggle-circle toggle-circle1 absolute top-1/2 left-1 -translate-y-1/2 bg-zinc-200 w-[20px] h-[20px] rounded-full"></div>
+                </div>
+            </div>
+            <div class="message-notification">
+                <h2 class="text-2xl">Message Notification</h2>
+                <p>Receive notifications via message</p>
+                <div class="toggle-btn toggle-btn2 relative w-14 h-7 rounded-full bg-zinc-700 mt-2 cursor-pointer">
+                    <div class="toggle-circle toggle-circle2 absolute top-1/2 left-1 -translate-y-1/2 bg-zinc-200 w-[20px] h-[20px] rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/notification.js') }}"></script>
+
+{% endblock content %}

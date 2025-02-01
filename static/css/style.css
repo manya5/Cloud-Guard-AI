@@ -1,0 +1,31 @@
+@font-face {
+    font-family: Gilroy;
+    src: url('../fonts/Gilroy-Regular.ttf');
+}
+*{
+    font-family: Gilroy;
+} 
+
+/* 
+@import url('https://fonts.googleapis.com/css2?family=Gilroy:wght@400;700&display=swap');
+
+* {
+    font-family: 'Gilroy', sans-serif;
+} */
+
+.page-transition {
+    animation: fadeEffect 0.5s;
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.toggle-circle {
+    transition: all .3s linear;
+}
+
+.toggle-btn {
+    transition: all .3s linear;
+}

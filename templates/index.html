@@ -1,0 +1,37 @@
+
+{% extends 'layout2.html' %}
+
+{% block content %}
+<div class="main-right w-2/5 h-screen flex justify-center items-center">
+    <form action="/login" class="bg-zinc-900 shadow-2xl p-12 rounded-lg flex flex-col gap-6 " method="post">
+        {{form.hidden_tag()}}
+        <div class="loginwith flex flex-col mb-4">
+            <h3 class="text-3xl text-center font-bold ">Login using SkyVault</h3>
+            <h3 class="text-3xl text-center font-bold">email</h3>
+        </div>
+        <div class="flex flex-col">
+            <label for="email" class="text-zinc-200">{{form.email.label}}
+                {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                <span class="text-red-500"><div>{{error}}</div></span>
+                {% endfor %}
+                {% endif %}
+            </label>
+            <input class="px-4 py-2 bg-zinc-800 mt-2 w-80 rounded-md outline-none text-zinc-300" type="email" name="email" placeholder="johndoe@example.com">
+        </div>
+        <div class="flex flex-col">
+            <label for="password" class="text-zinc-200">{{form.password.label}}
+                {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                <span class="text-red-500"><div>{{error}}</div></span>
+                {% endfor %}
+                {% endif %}
+            </label>
+            <input class="px-4 py-2 bg-zinc-800 mt-2 w-80 rounded-md outline-none text-zinc-300" type="password" name="password" placeholder="********">
+        </div>
+        
+        <button type="Sign In" class="bg-blue-700 hover:bg-blue-600 font-bold text-sm px-3 py-2 rounded-md w-28 text-center mx-auto">Sign In</button>
+        
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="settings-section w-[82%] h-screen flex justify-center items-center overflow-hidden">
+    <div class="settings-container h-[96%] w-full p-10 ">
+        <h1 class="text-6xl">Settings</h1>
+        <div class="mt-10 flex flex-col px-10">
+            <div class="profile-section absolute right-40 flex flex-col justify-center items-center gap-2">
+                <div class="profile w-52 h-52 bg-gray-600 hover:bg-gray-700 rounded-full cursor-pointer flex flex-col justify-center items-center">
+                    <i class="ri-user-line text-6xl"></i>
+                </div>
+                <p class="text-xl flex gap-2"><i class="ri-pencil-fill"></i>{{user['username']}}</p>
+                <button class="profile-edit-btn text-sm bg-green-700 px-3 py-2 rounded-lg">Edit Profile</button>
+            </div>
+
+            <div class="edit-profile hidden absolute top-[47%] right-[0%] transform -translate-x-1/2 -translate-y-1/2 bg-zinc-900 rounded-lg p-10 py-10 flex flex-col justify-center items-center w-80">
+            
+                <form class="w-full mx-auto">
+                <div class="mb-5">
+                    <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                    <input type="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{user['username']}}" required />
+                </div>
+                <div class="mb-5">
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                    <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{{user['email']}}" required />
+                </div>
+                
+            
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Profile</button>
+                <button class="profile-cancel-btn text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Cancel</button>
+                </form>
+
+            </div>
+
+            <div class="account-settings flex flex-col">
+                <h2 class="text-3xl text-zinc-200">User Account Settings</h2>
+                <ul class="px-5 flex flex-col gap-1 mt-2">
+                    <li class="text-md hover:text-zinc-300"><a href="">Profile Management</a></li>
+                    <!-- Update profile information (name, email, contact details).
+                        Change profile picture. -->
+
+                    <li class="text-md hover:text-zinc-300"><a href="/change_password">Change Password</a></li>
+                    <!-- Allow users to reset their passwords securely. -->
+
+                    <li class="text-md hover:text-zinc-300"><a href="/two-factor-authentication">Two Factor Authentication</a></li>
+                    <!-- Enable/disable 2FA for enhanced security. -->
+
+            </ul>
+            </div>
+            <div class="notification-settings flex flex-col">
+                <h2 class="text-3xl text-zinc-200 mt-6">Notification Settings</h2>
+                <ul class="px-5 flex flex-col gap-1 mt-2">
+                    <li class="text-md hover:text-zinc-300"><a href="">Alert Preferences</a></li>
+                    <!-- Configure the types of alerts the user wants to receive (e.g., high-severity anomalies, file changes). -->
+
+                    <li class="text-md hover:text-zinc-300"><a href="/notification_channel">Notification Channels</a></li>
+                    <!-- Choose how notifications are sent (email, SMS, in-app). -->
+                </ul>
+            </div>
+            <div class="more-settings flex flex-col">
+                <h2 class="text-3xl text-zinc-200 mt-6">More Settings</h2>
+                <ul class="px-5 flex flex-col gap-1 mt-2">
+                    <li class="text-md hover:text-zinc-300"><a href="">Monitoring Preferences</a></li>
+                    <!-- Enable or disable monitoring of specific file types (e.g., exclude .jpg files). -->
+
+                    <li class="text-md hover:text-zinc-300"><a href="">Retention Period</a></li>
+                    <!-- Set how long file activity logs and anomaly records are retained. -->
+                    
+                    <li class="text-md hover:text-zinc-300"><a href="">Theme Customization</a></li>
+                    <!-- Light mode, dark mode, or auto mode based on the system. -->
+
+                    <li class="text-md hover:text-zinc-300"><a href="">Anomaly Detection Sensitivity</a></li>
+                    <!-- Let users adjust the sensitivity of anomaly detection algorithms (e.g., strict, medium, low). -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
